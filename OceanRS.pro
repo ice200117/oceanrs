@@ -20,8 +20,7 @@ SOURCES += main.cpp\
     pushbutton.cpp \
     forecast.cpp \
     display.cpp \
-    selectfile.cpp \
-    demo.cpp
+    selectfile.cpp
 
 HEADERS  += mainwindow.h \
     logindlg.h \
@@ -29,16 +28,14 @@ HEADERS  += mainwindow.h \
     pushbutton.h \
     forecast.h \
     display.h \
-    selectfile.h \
-    demo.h
+    selectfile.h
 
 FORMS    += mainwindow.ui \
     logindlg.ui \
     ronghe.ui \
     forecast.ui \
     display.ui \
-    selectfile.ui \
-    demo.ui
+    selectfile.ui
 
 
 RESOURCES += \

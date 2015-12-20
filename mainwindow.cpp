@@ -89,6 +89,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(elapsed_timer,SIGNAL(timeout()),this,SLOT(add_elapsed_time()));
 
     swl_firstime = true;
+    zcdw_firstime = true;
 
 }
 
@@ -252,6 +253,11 @@ void MainWindow::loadPicture(QString path)
     QStringList fl = findFile(path);
     QString f;
 
+    QDir dir(path);
+    QFileInfoList list;
+    QStringList files;
+    QFileInfo l;
+
     qDebug() << path << "pppppppppppppppppppppppppppp";
 
 
@@ -332,6 +338,45 @@ void MainWindow::loadPicture(QString path)
         return;
     }
 
+
+    if(path.contains("ZCDW")){
+        list = dir.entryInfoList();
+        qDebug() << list.size();
+        if (list.size() == 101+2){
+            if(fc && zcdw_firstime)   {
+                zcdw_firstime = false;
+
+            if(fc)   {
+                if(elapsed_timer->isActive()){
+                    elapsed_timer->stop();
+                    QMessageBox::warning(0,QStringLiteral("时间统计"),QStringLiteral("运行时间为")+QString(" %1 ").arg(elapsed_time)+QStringLiteral("秒！"),QMessageBox::Yes);
+                }
+                fc->stop_loading();
+            }
+
+            foreach (l, list) {
+                if(l.fileName() == "." || l.fileName() == "..")
+                    continue;
+                files << l.filePath();
+            }
+
+            files.sort();
+            //displayYuBao(files);
+              Display *fc = new Display();
+              fc->init(files);
+              QDesktopWidget* desktop = QApplication::desktop();
+              int x,y;
+              x=(desktop->width() - fc->width())/2;
+              y=(desktop->height() - fc->height())/2-20;
+              fc->setGeometry(x,y,fc->width(),fc->height());
+              fc->setModal(true);
+              fc->show();
+
+              zcdw_firstime = true;
+            }
+        }
+        return;
+    }
 
 
     // Stop loading gif in select window.

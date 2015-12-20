@@ -68,6 +68,7 @@ private:
     Forecast *fc;
 
     bool swl_firstime;
+    bool zcdw_firstime;
 
 
 

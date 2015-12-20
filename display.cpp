@@ -100,7 +100,7 @@ void Display::init(QStringList files)
 void Display::init(QString file)
 {
     // Read basic infomation from same name txt of picture.
-    QString date = file_date;
+    QString date = "20151112";
     float x1=160;
     float y1=10;
     float x2=-120;
@@ -124,6 +124,9 @@ void Display::init(QString file)
         pt = HL;
     }else if(m_path.contains("SWWYL")){
         pt = SWWYL;
+
+        date = file_date;
+
         ui->label_16->show();
         ui->lineEdit->show();
         ui->label_17->show();
@@ -133,6 +136,9 @@ void Display::init(QString file)
         pt = WYC;
     }else if(m_path=="C:/pic/ZCDW"){
         pt = ZCDW;
+
+        date = "20121012";
+        y1=10; y2=25; x1=108; x2=122;
     }else if(m_path=="C:/pic/HYFM"){
         pt = HYFM;
 

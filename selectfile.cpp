@@ -94,6 +94,10 @@ void SelectFile::init(PIC_TYPE pt)
     case ZCDW:
 
         ui->label_4->setText(QStringLiteral("请选择中尺度涡的输入文件和输出路径"));
+        ui->label_2->hide();
+        ui->lineEdit_2->hide();
+        ui->pushButton_2->hide();
+
         break;
     case WYC:
 
@@ -218,6 +222,23 @@ void SelectFile::copyFile(QString path)
             QDir::setCurrent(root_path);
         }
         break;
+    case ZCDW:
+
+        list = dir.entryInfoList();
+        qDebug() << list.size();
+        if (list.size() == 101+2){
+            QDir::setCurrent(root_path+"/yubao/zcdw/");
+
+
+            QThread::sleep(1);
+            copyDirectoryFiles(path, m_outPath, true );
+
+
+            copyDirectoryFiles(path, "C:/pic/ZCDW/", true );
+
+            QDir::setCurrent(root_path);
+        }
+        break;
     default:
         break;
     }
@@ -285,6 +306,8 @@ void SelectFile::on_pushButton_4_clicked()
     case ZCDW:
 
         // TODO write config file and call 中尺度涡 program.
+
+        callZCDW();
         break;
     case WYC:
 
@@ -293,6 +316,54 @@ void SelectFile::on_pushButton_4_clicked()
     default:
         break;
     }
+}
+
+
+void SelectFile::callZCDW()
+{
+    QString inFile;
+    QString outPath;
+    QDir dir(root_path+"/yubao/zcdw/PIC/");
+    inFile = ui->lineEdit->text();
+    outPath = ui->lineEdit_3->text();
+
+    QFileInfo fi(inFile);
+    QFileInfoList list;
+
+    if(inFile.isEmpty() || outPath.isEmpty()){
+        QMessageBox::warning(0,"Warning",QStringLiteral("请选择输入文件和输出路径"),QMessageBox::Yes);//查看路径
+    }else {
+        //载入loading…动画
+        loadMovie->start();
+        ui->label_5->show();
+
+        // 清空输出目录
+        list = dir.entryInfoList();
+        for(int i=0; i<list.size(); i++)
+        {
+            QFile::remove(list.at(i).filePath());
+        }
+
+        copyFileToPath(inFile, root_path+"/yubao/zcdw/",true);
+
+        m_outPath = outPath;
+        m_fsw->addPath( root_path+"/yubao/zcdw/PIC/");
+
+        // 写配置文件 initial1.txt 调用程序
+        qDebug() << root_path;
+        QDir::setCurrent(root_path+"/yubao/zcdw/");
+
+//        file_init.open(QIODevice::WriteOnly);
+//        fileOut << file_date << "\n";
+//        file_init.close();
+
+        QProcess::startDetached("runscript.exe");
+
+        // 还原系统路径
+        QDir::setCurrent(root_path);
+
+    }
+
 }
 
 void SelectFile::callSWWYL()

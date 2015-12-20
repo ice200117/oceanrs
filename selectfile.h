@@ -26,6 +26,7 @@ public:
     bool copyFileToPath(QString sourceDir ,QString toDir, bool coverFileIfExist);
 
     void callSWWYL();
+    void callZCDW();
 
 private slots:
     void on_pushButton_4_clicked();

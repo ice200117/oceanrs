@@ -4,13 +4,13 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <QTextCodec> //添加头文件
-#include "logindlg.h" //添加头文件
+
 #include<QDesktopWidget>
-#include "display.h"
+
 #include <QThread>
 
-
-
+#include "logindlg.h" //添加头文件
+#include "display.h"
 
 
 int main(int argc, char *argv[])
